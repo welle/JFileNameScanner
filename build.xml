@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="JFileNameScanner" default="jars" basedir=".">
+
+	<target name="chkBuildProperties" >
+		<available file="build.properties" type="file" property="build.properties.present"/>
+	</target>
+	<target name="copyBuildProperties" unless="build.properties.present" >
+		<echo message="Creating properties file." />
+    	<copy file="build.properties.sample" tofile="build.properties" overwrite="false" verbose="true" />
+	</target>
+	<target name="init" depends="chkBuildProperties,copyBuildProperties" >
+		<echo message="Reading properties files." />
+    	<property file="build.properties" />
+    	<property file="version.properties" />
+	</target>
+
+    <target name="clean" depends="init">
+        <delete dir="JFileNameScanner/classes" />
+        <delete dir="JFileNameScanner/javadoc" />
+    </target>
+
+    <target name="all" depends="jars,javadoc" />
+
+    <target name="jars" depends="init">
+        <echo message="Build JFileNameScanner Jars" />
+
+        <property name="classes" value="JFileNameScanner/classes" />
+
+        <ant antfile="buildJars.xml" />
+    </target>
+
+    <target name="javadoc" depends="init">
+        <echo message="Running Javadoc on JFileNameScanner" />
+
+        <ant antfile="buildJavadoc.xml" />
+    </target>
+
+</project>

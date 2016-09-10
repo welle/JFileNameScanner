@@ -1,0 +1,10 @@
+# Defines where the jars are to be built
+# jars_dest = d:/Projets java/JFileNameScanner
+jars_dest = 
+
+# Defines where the javadoc is to be built
+# Only required if building Javadoc via Ant
+# javadoc_dest = d:/Projets java/JFileNameScanner/javadoc
+javadoc_dest = 
+
+version=1.0
