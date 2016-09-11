@@ -13,6 +13,7 @@ public enum MatcherNameConstants {
      * Empty string.
      */
     EMPTY(""),
+
     /**
      * Space.
      */

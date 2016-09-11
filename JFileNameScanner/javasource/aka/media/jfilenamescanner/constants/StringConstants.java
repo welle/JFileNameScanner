@@ -13,18 +13,22 @@ public enum StringConstants {
      * Empty string.
      */
     EMPTY(""),
+
     /**
      * Dot.
      */
     DOT("."),
+
     /**
      * Dash.
      */
     DASH("-"),
+
     /**
      * Underscore.
      */
     UNDERSCORE("_"),
+
     /**
      * Space.
      */

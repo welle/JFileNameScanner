@@ -13,7 +13,9 @@ import java.util.regex.Pattern;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import aka.media.jfilenamescanner.constants.Regex;
 import aka.media.jfilenamescanner.constants.StringConstants;
+import aka.media.jfilenamescanner.constants.TvShowPattern;
 import aka.media.jfilenamescanner.utils.SeasonXEpisode;
 import aka.swissknife.data.TextUtils;
 
@@ -27,28 +29,8 @@ import aka.swissknife.data.TextUtils;
  */
 public final class TvShowEpisodeHelper {
 
-    private static final Pattern seasonPattern = Pattern.compile("(?:(?:season)|(?:saison)|(?:s))\\W?([0-9]{1,2})");
-    private static final Pattern episodePattern = Pattern.compile("(?:(?:(?:[eé]p)|(?:[eé]pisode)) ([0-9]{1,3}))|(?:(?:^| )([0-9]{1,3})[ -_])");
-
-    private enum TvShowPattern {
-        SxEPattern("([0-9]{1,2})x([0-9]{1,3})\\D"), SxEPattern2("s([0-9]{1,2}).?[eé]([0-9]{1,3})"), SxEPattern3("(?:^|[\\W} ])([0-9]{1,3})([0-9][0-9])[\\._ \\-]"), SxEPattern4("(?:(?:season)|(?:saison)).?([0-9]{1,2}).*[eé]p.?([0-9]{1,3})"), SxEPattern5("(?:(?:season)|(?:saison)).?([0-9]{1,2}).*(?:[eé]pisode).?([0-9]{1,3})"), SxEPattern6("s([0-9]{1,2}).*[ée]pisode.?\\D?([0-9]{1,3})"), SxEPattern7("([0-9]{2}) ([0-9]{3})(?:\\D|$)");
-
-        @NonNull
-        private Pattern pattern;
-
-        private TvShowPattern(@NonNull final String pattern) {
-            final Pattern pat = Pattern.compile(pattern);
-            this.pattern = pat;
-        }
-
-        /**
-         * @return pattern
-         */
-        @NonNull
-        public Pattern getPattern() {
-            return this.pattern;
-        }
-    }
+    private static final Pattern SEASON_PATTERN = Pattern.compile(Regex.SEASON.getExpression());
+    private static final Pattern EPISODE_PATTERN = Pattern.compile(Regex.EPISODE.getExpression());
 
     @NonNull
     private String episodeName = StringConstants.EMPTY.getString();
@@ -99,7 +81,7 @@ public final class TvShowEpisodeHelper {
         SeasonXEpisode result;
         final List<@NonNull SeasonXEpisode> SxEs = new ArrayList<>();
         SeasonXEpisode sxe;
-        for (final TvShowEpisodeHelper.TvShowPattern patternToTest : TvShowEpisodeHelper.TvShowPattern.values()) {
+        for (final TvShowPattern patternToTest : TvShowPattern.values()) {
             assert patternToTest != null;
             if ((sxe = match(patternToTest)) != null) {
                 SxEs.add(sxe);
@@ -108,13 +90,13 @@ public final class TvShowEpisodeHelper {
 
         if (SxEs.isEmpty()) {
             sxe = new SeasonXEpisode();
-            Matcher matcher = seasonPattern.matcher(this.parentFolder == null ? this.episodeName : this.parentFolder);
+            Matcher matcher = SEASON_PATTERN.matcher(this.parentFolder == null ? this.episodeName : this.parentFolder);
             if (matcher.find()) {
                 final String season = matcher.group(1);
                 sxe.setSeason(TextUtils.isDigit(season) ? Integer.parseInt(season) : 1);
             }
 
-            matcher = episodePattern.matcher(this.episodeName);
+            matcher = EPISODE_PATTERN.matcher(this.episodeName);
             if (matcher.find()) {
                 final String episode = matcher.group(1) == null ? matcher.group(2) : matcher.group(1);
                 sxe.setEpisode(TextUtils.isDigit(episode) ? Integer.parseInt(episode) : 1);
@@ -296,8 +278,8 @@ public final class TvShowEpisodeHelper {
         String normalize = str;
         normalize = normalize.substring(0, str.lastIndexOf(StringConstants.DOT.getString()));
         normalize = normalize.replace(StringConstants.DOT.getString(), StringConstants.SPACE.getString()).replace(StringConstants.UNDERSCORE.getString(), StringConstants.SPACE.getString()).replace(StringConstants.DASH.getString(), StringConstants.SPACE.getString()).trim();
-        normalize = normalize.replaceAll("[,;:!]", StringConstants.EMPTY.getString());// Remove punctuation
-        normalize = normalize.replaceAll("\\s+", StringConstants.SPACE.getString());// Remove duplicate space character
+        normalize = normalize.replaceAll(Regex.PUNCTUATION.getExpression(), StringConstants.EMPTY.getString());// Remove punctuation
+        normalize = normalize.replaceAll(Regex.DUPLICATE_SPACE_CHARACTER.getExpression(), StringConstants.SPACE.getString());// Remove duplicate space character
 
         final String result = str.toLowerCase();
         assert result != null;

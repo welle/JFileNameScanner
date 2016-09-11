@@ -11,6 +11,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 import aka.media.jfilenamescanner.constants.Priority;
+import aka.media.jfilenamescanner.constants.Regex;
 import aka.media.jfilenamescanner.constants.StringConstants;
 
 /**
@@ -142,9 +143,9 @@ public abstract class UsualWords {
     public static final String standardize(@NonNull final String str) {
         String normalize = str;
         normalize = normalize.replace(StringConstants.DOT.getString(), StringConstants.SPACE.getString()).replace(StringConstants.UNDERSCORE.getString(), StringConstants.SPACE.getString()).replace(StringConstants.DASH.getString(), StringConstants.SPACE.getString()).trim();
-        normalize = normalize.replaceAll("[,;!]", StringConstants.EMPTY.getString());
-        normalize = normalize.replaceAll("\\[.*\\]", StringConstants.EMPTY.getString()).replaceAll("\\(.*\\)", StringConstants.EMPTY.getString());
-        normalize = normalize.replaceAll("\\s+", StringConstants.SPACE.getString());
+        normalize = normalize.replaceAll(Regex.PUNCTUATION.getExpression(), StringConstants.EMPTY.getString());
+        normalize = normalize.replaceAll(Regex.PUNCTUATION2.getExpression(), StringConstants.EMPTY.getString()).replaceAll(Regex.PUNCTUATION3.getExpression(), StringConstants.EMPTY.getString());
+        normalize = normalize.replaceAll(Regex.DUPLICATE_SPACE_CHARACTER.getExpression(), StringConstants.SPACE.getString());
         final String result = normalize.trim();
         assert result != null;
         return result;

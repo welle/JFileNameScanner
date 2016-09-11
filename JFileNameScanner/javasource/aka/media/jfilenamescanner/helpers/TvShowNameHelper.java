@@ -11,6 +11,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 import aka.media.jfilenamescanner.constants.Priority;
+import aka.media.jfilenamescanner.constants.Regex;
 import aka.media.jfilenamescanner.constants.StringConstants;
 import aka.media.jfilenamescanner.utils.NameMatcher;
 import aka.media.jfilenamescanner.utils.UsualWords;
@@ -31,12 +32,6 @@ public class TvShowNameHelper {
     private File mfile = null;
     @NonNull
     private String filename = StringConstants.EMPTY.getString();
-    @NonNull
-    private static final String SEASONFOLDERPATTERN = "(?i:season)|(?i:saison)|(?i:s).*\\d+";
-    @NonNull
-    private static final String TVSHOWFOLDERPATTERN = ".*(?i:tvshwow)|(?i:tv)|(?i:serie)|(?i:série).*";
-    @NonNull
-    private static final String TVSHOWNAMEBYEPISODE = "(([sS]\\d++\\?\\d++)|(\\d++x\\d++.?\\d++x\\d++)|(\\d++[eE]\\d\\d)|([sS]\\d++.[eE]\\d++)|(\\d++x\\d++)|(\\d++x\\d++.?\\d++\\?\\d++)|(.\\d{3}.))";
     @NonNull
     private List<@NonNull String> regexs = new ArrayList<>();
 
@@ -109,7 +104,7 @@ public class TvShowNameHelper {
         if (currentFile != null) {
             final String parentFile = currentFile.getParent();
             if (parentFile != null) {
-                final Pattern pattern = Pattern.compile(SEASONFOLDERPATTERN);
+                final Pattern pattern = Pattern.compile(Regex.SEASONFOLDERPATTERN.getExpression());
                 final Matcher matcher = pattern.matcher(parentFile.substring(parentFile.lastIndexOf(File.separator) + 1));
                 if (matcher.find()) {// Parent folder looks like : Season 5,s3,saison 12,...
                     if (currentFile.getParentFile().getParent() != null) {// If parent folder looks like a season folder, parent folder of season folder is probably the TV show name
@@ -131,7 +126,7 @@ public class TvShowNameHelper {
     private final NameMatcher matchByEpisode() {
         final NameMatcher episodeMatcher = new NameMatcher("Episode Matcher", Priority.MEDIUM);
         String name = this.filename;
-        final Pattern pattern = Pattern.compile(TVSHOWNAMEBYEPISODE);
+        final Pattern pattern = Pattern.compile(Regex.TVSHOWNAMEBYEPISODE.getExpression());
         final Matcher matcher = pattern.matcher(name);
 
         if (matcher.find()) {// Match episode in fileName
@@ -160,7 +155,7 @@ public class TvShowNameHelper {
                 if (file.getName().contains(StringConstants.DOT.getString())) {
                     if (!currentFile.equals(file)) {
                         final String name = file.getName();
-                        final Pattern pattern = Pattern.compile(TVSHOWNAMEBYEPISODE);
+                        final Pattern pattern = Pattern.compile(Regex.TVSHOWNAMEBYEPISODE.getExpression());
                         final Matcher matcher = pattern.matcher(name);
                         if (matcher.find()) {
                             result = true;
@@ -216,7 +211,7 @@ public class TvShowNameHelper {
         String res = StringConstants.EMPTY.getString();
         if (!FileUtils.isRootDir(parentFile)) {
             final String parent = parentFile.getName().substring(parentFile.getName().lastIndexOf(File.separator) + 1);
-            final Pattern pattern = Pattern.compile(TVSHOWFOLDERPATTERN);
+            final Pattern pattern = Pattern.compile(Regex.SEASONFOLDERPATTERN.getExpression());
             final Matcher matcher = pattern.matcher(parent);
             if (!matcher.find()) {// Check if folderName is not a tvshowName
                 res = parent;

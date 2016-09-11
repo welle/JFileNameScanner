@@ -11,6 +11,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 import aka.media.jfilenamescanner.constants.Priority;
+import aka.media.jfilenamescanner.constants.Regex;
 import aka.media.jfilenamescanner.constants.StringConstants;
 import aka.media.jfilenamescanner.utils.NameMatcher;
 import aka.media.jfilenamescanner.utils.UsualWords;
@@ -26,10 +27,6 @@ import aka.swissknife.data.TextUtils;
  */
 public final class MovieHelper {
 
-    @NonNull
-    private static final String MOVIENAMEBYYEARW = "\\D?(\\d{4})\\D";
-    @NonNull
-    private static final String MOVIENAMEBYYEAR = "\\D?\\d{4}\\D";
     @NonNull
     private final String filename;
     @Nullable
@@ -72,8 +69,8 @@ public final class MovieHelper {
         String result;
         // Get all matcher values
         final List<@NonNull NameMatcher> names = new ArrayList<>();
-        getMatcherRes(names, getMovieNameByYear(MovieHelper.MOVIENAMEBYYEARW));
-        getMatcherRes(names, getMovieNameByYear(MovieHelper.MOVIENAMEBYYEAR));
+        getMatcherRes(names, getMovieNameByYear(Regex.MOVIENAMEBYYEARW.getExpression()));
+        getMatcherRes(names, getMovieNameByYear(Regex.MOVIENAMEBYYEAR.getExpression()));
         getMatcherRes(names, getMovieNameByUpperCase());
         getMatcherRes(names, getMovieNameByRegex());
         if (names.isEmpty()) {
@@ -83,10 +80,10 @@ public final class MovieHelper {
             result = UsualWords.matchAllNames(names, false);
             if (result != null) {
                 // remove roman number
-                result = result.replaceAll("\\s+(([Ee][Pp][Ii][Ss][Oo][Dd][Ee])?\\s?)?([IXVLCDM]+\\s+)+", StringConstants.SPACE.getString());
+                result = result.replaceAll(Regex.EPISODE_ROMAN.getExpression(), StringConstants.SPACE.getString());
 
                 // remove number (exemple: Rocky 3 l'oeil du tigre) only if this is not the end of the name
-                result = result.replaceAll("\\s+(([Ee][Pp][Ii][Ss][Oo][Dd][Ee])?\\s?)?([0-9]+\\s+)+", StringConstants.SPACE.getString());
+                result = result.replaceAll(Regex.EPISODE_NUMERICAL.getExpression(), StringConstants.SPACE.getString());
                 if (result.endsWith(" 1") && !result.toLowerCase().endsWith("part 1") && !result.toLowerCase().endsWith("partie 1")) {
                     result = result.substring(0, result.lastIndexOf(" 1"));
                 }
@@ -95,7 +92,7 @@ public final class MovieHelper {
                 }
 
                 // at end, remove "et" unusefull
-                result = result.replaceAll("\\s+([Ee][Tt])+\\s+", StringConstants.SPACE.getString());
+                result = result.replaceAll(Regex.ET.getExpression(), StringConstants.SPACE.getString());
             }
         }
         this.movieName = result;

@@ -11,10 +11,12 @@ public enum Priority {
      * Priority High.
      */
     HIGH(),
+
     /**
      * Priority Medium.
      */
     MEDIUM(),
+
     /**
      * Priority Low.
      */
