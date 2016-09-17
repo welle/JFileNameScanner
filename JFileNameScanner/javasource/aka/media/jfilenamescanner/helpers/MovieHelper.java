@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -21,7 +22,7 @@ import aka.swissknife.data.TextUtils;
  * Class MovieHelper.
  *
  * The purpose of this class is to provide methods to get informations like name or year of a file or string representing a movie.
- * To get those informations for a TV serie, {@link TvShowNameHelper} or {@link TvShowEpisodeHelper} must be used.
+ * To get those informations for a TV show, {@link TVShowNameHelper} or {@link TVShowEpisodeHelper} must be used.
  *
  * @author Charlotte
  */
@@ -35,20 +36,27 @@ public final class MovieHelper {
     private final List<@NonNull String> regexs;
     @Nullable
     private String movieName;
+    private @NonNull final String nameWithoutSuffix;
 
     /**
      * Constructor.
      *
      * @param mfile movie file.
      * @param regexs list of regular expressions to use.
-     * @throws Exception if file name is null.
+     * @throws Exception if file name is null or empty
      */
     public MovieHelper(@NonNull final File mfile, @NonNull final List<@NonNull String> regexs) throws Exception {
         final String name = mfile.getName();
-        if (name == null) {
-            throw new Exception("File name null. Can not proceed");
-        }
+        assert name != null : "It should not be possible.";
         this.filename = name;
+
+        final String temp = FilenameUtils.getBaseName(this.filename);
+        if (TextUtils.isEmpty(temp)) {
+            throw new Exception("File name is null or empty.");
+        }
+
+        assert temp != null;
+        this.nameWithoutSuffix = temp;
         this.regexs = regexs;
         parseName();
     }
@@ -58,9 +66,18 @@ public final class MovieHelper {
      *
      * @param fileName movie name
      * @param regexs list of regular expressions to use
+     * @throws Exception if file name is null or empty
      */
-    public MovieHelper(@NonNull final String fileName, @NonNull final List<@NonNull String> regexs) {
+    public MovieHelper(@NonNull final String fileName, @NonNull final List<@NonNull String> regexs) throws Exception {
         this.filename = fileName;
+
+        final String temp = FilenameUtils.getBaseName(this.filename);
+        if (TextUtils.isEmpty(temp)) {
+            throw new Exception("File name is null or empty.");
+        }
+
+        assert temp != null;
+        this.nameWithoutSuffix = temp;
         this.regexs = regexs;
         parseName();
     }
@@ -74,8 +91,7 @@ public final class MovieHelper {
         getMatcherRes(names, getMovieNameByUpperCase());
         getMatcherRes(names, getMovieNameByRegex());
         if (names.isEmpty()) {
-            final String name = this.filename.substring(0, this.filename.lastIndexOf(StringConstants.DOT.getString()));
-            result = UsualWords.standardize(name);
+            result = UsualWords.standardize(this.nameWithoutSuffix);
         } else {
             result = UsualWords.matchAllNames(names, false);
             if (result != null) {
@@ -118,15 +134,15 @@ public final class MovieHelper {
         return this.movieYear;
     }
 
-    private void getMatcherRes(@NonNull final List<@NonNull NameMatcher> matchResults, @NonNull final NameMatcher movieMatcher) {
-        if (movieMatcher.found()) {
-            matchResults.add(movieMatcher);
+    private void getMatcherRes(@NonNull final List<@NonNull NameMatcher> matchResults, @NonNull final NameMatcher nameMatcher) {
+        if (nameMatcher.found()) {
+            matchResults.add(nameMatcher);
         }
     }
 
     @NonNull
     private NameMatcher getMovieNameByYear(@NonNull final String stringPattern) {
-        final NameMatcher movieMatcher = new NameMatcher("Year Matcher", Priority.MEDIUM);
+        final NameMatcher nameMatcher = new NameMatcher("Year Matcher", Priority.MEDIUM);
         String name = null;
         final Pattern pattern = Pattern.compile(stringPattern);
         final Matcher matcher = pattern.matcher(this.filename);
@@ -144,12 +160,14 @@ public final class MovieHelper {
             }
         }
 
-        if (name != null) {
-            name = UsualWords.getFilteredName(UsualWords.standardize(name), this.regexs);
-            movieMatcher.setMatch(name);
+        if (!TextUtils.isEmpty(name)) {
+            assert name != null;
+            name = UsualWords.standardize(name);
+            name = UsualWords.getFilteredName(name, this.regexs);
+            nameMatcher.setMatch(name);
         }
 
-        return movieMatcher;
+        return nameMatcher;
     }
 
     @Nullable
@@ -164,8 +182,7 @@ public final class MovieHelper {
     @NonNull
     private NameMatcher getMovieNameByUpperCase() {
         final NameMatcher movieMatcher = new NameMatcher("UpperCase Matcher", Priority.LOW);
-        final String value = this.filename.substring(0, this.filename.lastIndexOf(StringConstants.DOT.getString()));
-        String name = UsualWords.standardize(value);
+        String name = UsualWords.standardize(this.nameWithoutSuffix);
         final String[] words = name.split(StringConstants.SPACE.getString());
         String end = null;
         for (final String word : words) {
@@ -186,8 +203,8 @@ public final class MovieHelper {
     @NonNull
     private NameMatcher getMovieNameByRegex() {
         final NameMatcher movieMatcher = new NameMatcher("Regex Matcher", Priority.MEDIUM);
-        String name = this.filename.substring(0, this.filename.lastIndexOf(StringConstants.DOT.getString()));
-        name = UsualWords.getFilteredName(UsualWords.standardize(name), this.regexs);
+        @NonNull
+        final String name = UsualWords.getFilteredName(UsualWords.standardize(this.nameWithoutSuffix), this.regexs);
         movieMatcher.setMatch(name);
         return movieMatcher;
     }

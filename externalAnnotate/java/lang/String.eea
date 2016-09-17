@@ -1,4 +1,7 @@
 class java/lang/String
+replace
+ (Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+ (Ljava/lang/CharSequence;Ljava/lang/CharSequence;)L1java/lang/String;
 concat
  (Ljava/lang/String;)Ljava/lang/String;
  (Ljava/lang/String;)L1java/lang/String;

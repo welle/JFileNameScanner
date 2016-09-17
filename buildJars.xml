@@ -26,9 +26,7 @@
 	<property name="project" value="JFileNameScanner"/>
 	<property name="pkg_base" value="aka"/>
 
-    <property name="target.managers" value="${jars_dest}"/>
     <property name="target.applications" value="${jars_dest}"/>
-
 
     <target name="allJars" depends="jar"/>
 

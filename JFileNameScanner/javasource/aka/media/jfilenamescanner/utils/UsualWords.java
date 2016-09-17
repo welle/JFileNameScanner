@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
@@ -41,11 +42,8 @@ public abstract class UsualWords {
                     }
                 }
             } else {
-                final List<@NonNull String> allMatch = new ArrayList<>();
-                for (int i = 0; i < names.size(); i++) {
-                    allMatch.add(names.get(i).getMatch());
-                }
-
+                final List<@NonNull String> allMatch = names.stream().map(n -> n.getMatch()).collect(Collectors.toList());
+                assert allMatch != null;
                 List<@NonNull String> movieNames = getUsualWords(allMatch);
                 if (movieNames == null || movieNames.isEmpty()) {
                     result = getSmallString(allMatch);
@@ -176,7 +174,7 @@ public abstract class UsualWords {
      * @return Cleaned movie name by regex
      */
     @NonNull
-    public static final String getFilteredName(@NonNull final String mediaName, @NonNull final List<String> replaceBy) {
+    public static final String getFilteredName(@NonNull final String mediaName, @NonNull final List<@NonNull String> replaceBy) {
         String res = mediaName.replaceAll("\\.", StringConstants.SPACE.getString());
         res = res.replaceAll(StringConstants.UNDERSCORE.getString(), StringConstants.SPACE.getString());
         for (final String regex : replaceBy) {

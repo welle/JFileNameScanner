@@ -64,10 +64,19 @@ public enum Regex {
      */
     EPISODE("(?:(?:(?:[eé]p)|(?:[eé]pisode)) ([0-9]{1,3}))|(?:(?:^| )([0-9]{1,3})[ -_])"),
 
+    /**
+     * Season folder pattern.
+     */
     SEASONFOLDERPATTERN("(?i:season)|(?i:saison)|(?i:s).*\\d+"),
 
+    /**
+     * TV show folder pattern.
+     */
     TVSHOWFOLDERPATTERN(".*(?i:tvshwow)|(?i:tv)|(?i:serie)|(?i:série).*"),
 
+    /**
+     * TV show name by episode.
+     */
     TVSHOWNAMEBYEPISODE("(([sS]\\d++\\?\\d++)|(\\d++x\\d++.?\\d++x\\d++)|(\\d++[eE]\\d\\d)|([sS]\\d++.[eE]\\d++)|(\\d++x\\d++)|(\\d++x\\d++.?\\d++\\?\\d++)|(.\\d{3}.))"),
 
     /**

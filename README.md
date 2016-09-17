@@ -9,10 +9,11 @@ Based on the file name, the Java library can:
 
 ## How to use it ##
 
-In the class aka.media.test.Examples.java you'll find a comprehensive example of how to use it.
+In the classes *_JUnitTest you'll find comprehensive examples of how to use it.
 
 Javadoc is available in bitbucket source folders or you can view it [online](http://jfilenamescanner.hephaistos.be/). 
 
 ### Dependencies ###
 
-* Swissknife also available in this repository
+* Swissknife (available in this repository)
+* Commons-io (available in this repository)

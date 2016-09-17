@@ -27,7 +27,7 @@ import aka.swissknife.data.TextUtils;
  *
  * @author Charlotte
  */
-public final class TvShowEpisodeHelper {
+public final class TVShowEpisodeHelper {
 
     private static final Pattern SEASON_PATTERN = Pattern.compile(Regex.SEASON.getExpression());
     private static final Pattern EPISODE_PATTERN = Pattern.compile(Regex.EPISODE.getExpression());
@@ -41,13 +41,10 @@ public final class TvShowEpisodeHelper {
      * Constructor.
      *
      * @param mfile TV show file
-     * @throws Exception if file name can not be retrieved
      */
-    public TvShowEpisodeHelper(@NonNull final File mfile) throws Exception {
+    public TVShowEpisodeHelper(@NonNull final File mfile) {
         final String name = mfile.getName();
-        if (name == null) {
-            throw new Exception("File name is null");
-        }
+        assert name != null : "It should not be possible.";
         init(name);
     }
 
@@ -56,7 +53,7 @@ public final class TvShowEpisodeHelper {
      *
      * @param episodeName TV show name.
      */
-    public TvShowEpisodeHelper(@NonNull final String episodeName) {
+    public TVShowEpisodeHelper(@NonNull final String episodeName) {
         init(episodeName);
     }
 

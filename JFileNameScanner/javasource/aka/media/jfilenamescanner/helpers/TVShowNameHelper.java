@@ -26,7 +26,7 @@ import aka.swissknife.file.FileUtils;
  *
  * @author Charlotte
  */
-public class TvShowNameHelper {
+public class TVShowNameHelper {
 
     @Nullable
     private File mfile = null;
@@ -40,14 +40,11 @@ public class TvShowNameHelper {
      *
      * @param mfile TV show file
      * @param regexs list of regular expression
-     * @throws Exception if file name can not be retrieved
      */
-    public TvShowNameHelper(@NonNull final File mfile, @NonNull final List<@NonNull String> regexs) throws Exception {
+    public TVShowNameHelper(@NonNull final File mfile, @NonNull final List<@NonNull String> regexs) {
         this.mfile = mfile;
         final String name = mfile.getName();
-        if (name == null) {
-            throw new Exception("File name is null");
-        }
+        assert name != null : "It should not be possible.";
         init(name, regexs);
     }
 
@@ -57,7 +54,7 @@ public class TvShowNameHelper {
      * @param name TV show name
      * @param regexs list of regular expression
      */
-    public TvShowNameHelper(@NonNull final String name, @NonNull final List<@NonNull String> regexs) {
+    public TVShowNameHelper(@NonNull final String name, @NonNull final List<@NonNull String> regexs) {
         init(name, regexs);
     }
 
@@ -98,7 +95,7 @@ public class TvShowNameHelper {
 
     @NonNull
     private final NameMatcher matchByFolderName() {
-        final NameMatcher folderNameMatcher = new NameMatcher("Folder Name Macther", Priority.HIGH);
+        final NameMatcher folderNameMatcher = new NameMatcher("Folder Name Matcher", Priority.HIGH);
         String res = StringConstants.EMPTY.getString();
         final File currentFile = this.mfile;
         if (currentFile != null) {

@@ -42,7 +42,7 @@
 			packagenames="aka/media/**/*.*"
 			breakiterator="true"
 			private="true"
-	    	classpath="C:\eclipseLunaMy\plugins\org.eclipse.jdt.annotation_2.0.0.v20140415-1436.jar">
+	    	classpath="C:\eclipse\plugins\org.eclipse.jdt.annotation_2.0.0.v20140415-1436.jar">
 
 			<doctitle><![CDATA[<h1>JFileNameScanner</h1>]]></doctitle>
 			<header><![CDATA[<b>JFileNameScanner</b>]]></header>
