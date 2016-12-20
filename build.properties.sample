@@ -1,3 +1,8 @@
+# JaCoCo installation path
+# Only required if running JaCoCo via Ant
+# jacoco.home = d:/java/jacoco-0.6.3/
+jacoco.home = 
+
 # Defines where the jars are to be built
 # jars_dest = d:/Projets java/JFileNameScanner
 jars_dest = 
@@ -6,5 +11,8 @@ jars_dest =
 # Only required if building Javadoc via Ant
 # javadoc_dest = d:/Projets java/JFileNameScanner/javadoc
 javadoc_dest = 
+
+# Define path of JaCoCo
+jacoco.home = 
 
 version=1.0

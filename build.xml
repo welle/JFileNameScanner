@@ -1,38 +1,61 @@
 <?xml version="1.0"?>
 <project name="JFileNameScanner" default="jars" basedir=".">
 
-	<target name="chkBuildProperties" >
-		<available file="build.properties" type="file" property="build.properties.present"/>
+	<target name="chkBuildProperties">
+		<available file="build.properties" type="file" property="build.properties.present" />
 	</target>
-	<target name="copyBuildProperties" unless="build.properties.present" >
+	<target name="copyBuildProperties" unless="build.properties.present">
 		<echo message="Creating properties file." />
-    	<copy file="build.properties.sample" tofile="build.properties" overwrite="false" verbose="true" />
+		<copy file="build.properties.sample" tofile="build.properties" overwrite="false" verbose="true" />
 	</target>
-	<target name="init" depends="chkBuildProperties,copyBuildProperties" >
+	<target name="init" depends="chkBuildProperties,copyBuildProperties">
 		<echo message="Reading properties files." />
-    	<property file="build.properties" />
-    	<property file="version.properties" />
+		<property file="build.properties" />
+		<property file="version.properties" />
 	</target>
 
-    <target name="clean" depends="init">
-        <delete dir="JFileNameScanner/classes" />
-        <delete dir="JFileNameScanner/javadoc" />
-    </target>
+	<target name="clean" depends="init">
+		<delete dir="JFileNameScanner/classes" />
+		<delete dir="JFileNameScanner/javadoc" />
+	</target>
 
-    <target name="all" depends="jars,javadoc" />
+	<target name="all" depends="jars,javadoc" />
 
-    <target name="jars" depends="init">
-        <echo message="Build JFileNameScanner Jars" />
+	<target name="jars" depends="init">
+		<echo message="Build JFileNameScanner Jars" />
 
-        <property name="classes" value="JFileNameScanner/classes" />
+		<property name="classes" value="JFileNameScanner/classes" />
 
-        <ant antfile="buildJars.xml" />
-    </target>
+		<ant antfile="buildJars.xml" />
+	</target>
 
-    <target name="javadoc" depends="init">
-        <echo message="Running Javadoc on JFileNameScanner" />
+	<target name="pmd" depends="init">
+		<echo message="Running PMD on JFileNameScanner" />
 
-        <ant antfile="buildJavadoc.xml" />
-    </target>
+		<property name="classes" value="JFileNameScanner/classes" />
+
+		<ant antfile="buildPMD.xml" />
+	</target>
+
+	<target name="jacoco" depends="init">
+		<echo message="Running JaCoCo on JFileNameScanner" />
+
+		<property name="classes" value="JFileNameScanner/classes" />
+		<property name="test_classes" value="JFileNameScanner/classes" />
+
+		<ant antfile="buildJaCoCo.xml" />
+	</target>
+
+	<target name="sonar" depends="jacoco">
+		<echo message="Running Sonar on JFileNameScanner" />
+
+		<ant antfile="buildSonar.xml" />
+	</target>
+
+	<target name="javadoc" depends="init">
+		<echo message="Running Javadoc on JFileNameScanner" />
+
+		<ant antfile="buildJavadoc.xml" />
+	</target>
 
 </project>

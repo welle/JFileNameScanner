@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.5.2" timestamp="2016-12-20T11:50:49.776">
+<file name="C:\Projects Java\JFileNameScanner\JFileNameScanner\javasource\aka\media\jfilenamescanner\JFileNameScanner.java">
+<violation beginline="21" endline="202" begincolumn="37" endcolumn="1" rule="UseUtilityClass" ruleset="Design" package="aka.media.jfilenamescanner" class="JFileNameScanner" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseUtilityClass" priority="3">
+All methods are static.  Consider using a utility class instead. Alternatively, you could add a private constructor or make the class abstract to silence this warning.
+</violation>
+</file>
+<file name="C:\Projects Java\JFileNameScanner\JFileNameScanner\javasource\aka\media\jfilenamescanner\helpers\MovieHelper.java">
+<violation beginline="103" endline="103" begincolumn="47" endcolumn="85" rule="UseLocaleWithCaseConversions" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="MovieHelper" method="parseName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseLocaleWithCaseConversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="103" endline="103" begincolumn="91" endcolumn="131" rule="UseLocaleWithCaseConversions" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="MovieHelper" method="parseName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseLocaleWithCaseConversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="106" endline="106" begincolumn="47" endcolumn="85" rule="UseLocaleWithCaseConversions" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="MovieHelper" method="parseName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseLocaleWithCaseConversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+<violation beginline="106" endline="106" begincolumn="91" endcolumn="131" rule="UseLocaleWithCaseConversions" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="MovieHelper" method="parseName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseLocaleWithCaseConversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+</file>
+<file name="C:\Projects Java\JFileNameScanner\JFileNameScanner\javasource\aka\media\jfilenamescanner\helpers\TVShowEpisodeHelper.java">
+<violation beginline="1" endline="285" begincolumn="1" endcolumn="2" rule="GodClass" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#GodClass" priority="3">
+Possible God class (WMC=56, ATFD=38, TCC=0.0)
+</violation>
+<violation beginline="30" endline="285" begincolumn="14" endcolumn="1" rule="CyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#CyclomaticComplexity" priority="3">
+The class 'TVShowEpisodeHelper' has a Cyclomatic Complexity of 7 (Highest = 33).
+</violation>
+<violation beginline="30" endline="285" begincolumn="14" endcolumn="1" rule="ModifiedCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#ModifiedCyclomaticComplexity" priority="3">
+The class 'TVShowEpisodeHelper' has a Modified Cyclomatic Complexity of 6 (Highest = 29).
+</violation>
+<violation beginline="30" endline="285" begincolumn="14" endcolumn="1" rule="StdCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#StdCyclomaticComplexity" priority="3">
+The class 'TVShowEpisodeHelper' has a Standard Cyclomatic Complexity of 6 (Highest = 29).
+</violation>
+<violation beginline="77" endline="174" begincolumn="18" endcolumn="5" rule="CyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" method="matchEpisode" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#CyclomaticComplexity" priority="3">
+The method 'matchEpisode' has a Cyclomatic Complexity of 33.
+</violation>
+<violation beginline="77" endline="174" begincolumn="18" endcolumn="5" rule="ModifiedCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" method="matchEpisode" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#ModifiedCyclomaticComplexity" priority="3">
+The method 'matchEpisode' has a Modified Cyclomatic Complexity of 29.
+</violation>
+<violation beginline="77" endline="174" begincolumn="18" endcolumn="5" rule="StdCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" method="matchEpisode" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#StdCyclomaticComplexity" priority="3">
+The method 'matchEpisode' has a Standard Cyclomatic Complexity of 29.
+</violation>
+<violation beginline="77" endline="174" begincolumn="18" endcolumn="5" rule="NPathComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" method="matchEpisode" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#NPathComplexity" priority="3">
+The method matchEpisode() has an NPath complexity of 14448
+</violation>
+<violation beginline="177" endline="198" begincolumn="19" endcolumn="5" rule="NPathComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" method="match" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#NPathComplexity" priority="3">
+The method match() has an NPath complexity of 226
+</violation>
+<violation beginline="281" endline="281" begincolumn="31" endcolumn="47" rule="UseLocaleWithCaseConversions" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="TVShowEpisodeHelper" method="standardize" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseLocaleWithCaseConversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+</file>
+<file name="C:\Projects Java\JFileNameScanner\JFileNameScanner\javasource\aka\media\jfilenamescanner\helpers\TVShowNameHelper.java">
+<violation beginline="29" endline="222" begincolumn="8" endcolumn="1" rule="CyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#CyclomaticComplexity" priority="3">
+The class 'TVShowNameHelper' has a Cyclomatic Complexity of 3 (Highest = 12).
+</violation>
+<violation beginline="29" endline="222" begincolumn="8" endcolumn="1" rule="ModifiedCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#ModifiedCyclomaticComplexity" priority="3">
+The class 'TVShowNameHelper' has a Modified Cyclomatic Complexity of 3 (Highest = 11).
+</violation>
+<violation beginline="29" endline="222" begincolumn="8" endcolumn="1" rule="StdCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#StdCyclomaticComplexity" priority="3">
+The class 'TVShowNameHelper' has a Standard Cyclomatic Complexity of 3 (Highest = 11).
+</violation>
+<violation beginline="32" endline="32" begincolumn="18" endcolumn="29" rule="RedundantFieldInitializer" ruleset="Optimization" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" variable="mfile" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/optimizations.html#RedundantFieldInitializer" priority="3">
+Avoid using redundant field initializer for 'mfile'
+</violation>
+<violation beginline="107" endline="112" begincolumn="21" endcolumn="21" rule="AvoidDeeplyNestedIfStmts" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" method="matchByFolderName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#AvoidDeeplyNestedIfStmts" priority="3">
+Deeply nested if..then statements are hard to read
+</violation>
+<violation beginline="107" endline="112" begincolumn="21" endcolumn="21" rule="CollapsibleIfStatements" ruleset="Basic" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" method="matchByFolderName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="145" endline="195" begincolumn="19" endcolumn="5" rule="CyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" method="matchByCommonSeqFileName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#CyclomaticComplexity" priority="3">
+The method 'matchByCommonSeqFileName' has a Cyclomatic Complexity of 12.
+</violation>
+<violation beginline="145" endline="195" begincolumn="19" endcolumn="5" rule="ModifiedCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" method="matchByCommonSeqFileName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#ModifiedCyclomaticComplexity" priority="3">
+The method 'matchByCommonSeqFileName' has a Modified Cyclomatic Complexity of 11.
+</violation>
+<violation beginline="145" endline="195" begincolumn="19" endcolumn="5" rule="StdCyclomaticComplexity" ruleset="Code Size" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" method="matchByCommonSeqFileName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/codesize.html#StdCyclomaticComplexity" priority="3">
+The method 'matchByCommonSeqFileName' has a Standard Cyclomatic Complexity of 11.
+</violation>
+<violation beginline="153" endline="160" begincolumn="21" endcolumn="21" rule="CollapsibleIfStatements" ruleset="Basic" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" method="matchByCommonSeqFileName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="218" endline="218" begincolumn="31" endcolumn="47" rule="UseLocaleWithCaseConversions" ruleset="Design" package="aka.media.jfilenamescanner.helpers" class="TVShowNameHelper" method="getTvShowFolderName" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseLocaleWithCaseConversions" priority="3">
+When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+</violation>
+</file>
+<file name="C:\Projects Java\JFileNameScanner\JFileNameScanner\javasource\aka\media\jfilenamescanner\utils\UsualWords.java">
+<violation beginline="23" endline="187" begincolumn="17" endcolumn="1" rule="AbstractClassWithoutAbstractMethod" ruleset="Design" package="aka.media.jfilenamescanner.utils" class="UsualWords" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#AbstractClassWithoutAbstractMethod" priority="3">
+This abstract class does not have any abstract methods
+</violation>
+<violation beginline="161" endline="161" begincolumn="13" endcolumn="21" rule="UseCollectionIsEmpty" ruleset="Design" package="aka.media.jfilenamescanner.utils" class="UsualWords" method="getSmallString" externalInfoUrl="https://pmd.github.io/pmd-5.5.2/pmd-java/rules/java/design.html#UseCollectionIsEmpty" priority="3">
+Substitute calls to size() == 0 (or size() != 0, size() &gt; 0, size() &lt; 1) with calls to isEmpty()
+</violation>
+</file>
+</pmd>
