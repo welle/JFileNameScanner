@@ -35,7 +35,7 @@
       *  Compile ${ant.project.name}
       *
       ********************************************************
-    </echo>
+    	</echo>
         <delete dir="${classes}" />
         <delete dir="${test_classes}" />
         <mkdir dir="${classes}" />
