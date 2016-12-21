@@ -50,10 +50,10 @@
             <classpath refid="JFileNameScanner.classpath" />
         </javac>
 
-        <javac encoding="8859_1" debug="true" debuglevel="${debuglevel}" destdir="${test_classes}" source="${source}" target="${target}" includeantruntime="false">
+        <!--javac encoding="8859_1" debug="true" debuglevel="${debuglevel}" destdir="${test_classes}" source="${source}" target="${target}" includeantruntime="false">
             <src path="JFileNameScanner/javasourceTest" />
             <classpath refid="JFileNameScanner.classpath" />
             <classpath path="${classes}" />
-        </javac>
+        </javac-->
     </target>
 </project>
