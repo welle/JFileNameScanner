@@ -6,6 +6,9 @@
 		<property name="chkclasses" value="$${classes}" />
 		<property name="chktest" value="$${test_classes}" />
 		<property name="chkjacoco.home" value="$${jacoco.home}" />
+		
+		<mkdir dir="$${jacoco.home}" />
+		
 		<condition property="missingPropCob">
 			<or>
 				<equals arg1="${chkclasses}" arg2="${classes}" />
