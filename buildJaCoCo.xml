@@ -7,7 +7,7 @@
 		<property name="chktest" value="$${test_classes}" />
 		<property name="chkjacoco.home" value="$${jacoco.home}" />
 		
-		<mkdir dir="$${jacoco.home}" />
+		<mkdir dir="${chkjacoco.home}" />
 		
 		<condition property="missingPropCob">
 			<or>
