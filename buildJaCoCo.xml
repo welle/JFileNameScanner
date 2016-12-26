@@ -25,6 +25,7 @@
 
 	<target name="runJaCoCo" depends="chkPropsCob, failCob" unless="missingPropCob">
 		<echo message="Running JaCoCo analysis..." />
+		<mkdir dir="${jacoco.home}" />
 		<antcall target="runJunit" />
 	</target>
 
@@ -62,7 +63,6 @@
 	<import file="classpath.xml" />
 
 	<target name="allJunit">
-        <mkdir dir="${jacoco.home}" />
 		
 		<path id="JUnit.classpath">
 			<pathelement location="${classes}" />
