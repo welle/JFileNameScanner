@@ -7,8 +7,6 @@
 		<property name="chktest" value="$${test_classes}" />
 		<property name="chkjacoco.home" value="$${jacoco.home}" />
 		
-		<mkdir dir="${chkjacoco.home}" />
-		
 		<condition property="missingPropCob">
 			<or>
 				<equals arg1="${chkclasses}" arg2="${classes}" />
@@ -64,6 +62,8 @@
 	<import file="classpath.xml" />
 
 	<target name="allJunit">
+        <mkdir dir="${jacoco.home}" />
+		
 		<path id="JUnit.classpath">
 			<pathelement location="${classes}" />
 			<pathelement location="${test_classes}" />
