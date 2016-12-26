@@ -18,14 +18,13 @@
 			</or>
 		</condition>
 	</target>
-
+	
 	<target name="failCob" if="missingPropCob">
 		<fail message="missing property(ies) : classes, jacoco.home, test_classes" />
 	</target>
 
 	<target name="runJaCoCo" depends="chkPropsCob, failCob" unless="missingPropCob">
 		<echo message="Running JaCoCo analysis..." />
-		<mkdir dir="${jacoco.home}" />
 		<antcall target="runJunit" />
 	</target>
 
@@ -36,7 +35,7 @@
 	</path>
 
 	<taskdef classpathref="jacoco.classpath" uri="antlib:org.jacoco.ant"
-		resource="org/jacoco/ant/antlib.xml" />
+		resource="org/jacoco/ant/antlib.xml"  />
 
 	<target name="runJunit" depends="chkProps, fail" unless="missingProp">
 		<echo message="Running JUnit tests..." />
