@@ -26,7 +26,6 @@
     <property name="sonar.java.test.libraries" value="lib/*.jar,libJunit/*.jar" />
     <property name="sonar.junit.reportsPath" value="junit/reports" />
     <property name="sonar.jacoco.reportPath" value="jacoco/jacoco.exec" />
-
 	<path id="sonar.classpath">
 		<fileset dir="libJunit/" includes="**/*.jar" />
  	</path>
