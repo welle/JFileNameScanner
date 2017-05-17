@@ -42,7 +42,6 @@
 
 		<property name="classes" value="JFileNameScanner/classes" />
 		<property name="test_classes" value="JFileNameScanner/classes" />
-
 		<mkdir dir="${jacoco.home}"/>
 		
 		<ant antfile="buildJaCoCo.xml" />
