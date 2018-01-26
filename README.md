@@ -1,4 +1,4 @@
-# JFileNameScanner #
+# JFileNameScanner [![Build Status](https://travis-ci.org/welle/JFileNameScanner.svg?branch=master)](https://travis-ci.org/welle/JFileNameScanner) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=aka.jfilenamescanner:JFileNameScanner)](https://sonarcloud.io/dashboard/index/aka.jfilenamescanner:JFileNameScanner) #
 
 ## Quick summary ##
 
@@ -11,9 +11,3 @@ Based on the file name, the Java library can:
 
 In the classes *_JUnitTest you'll find comprehensive examples of how to use it.
 
-Javadoc is available in bitbucket source folders or you can view it [online](http://jfilenamescanner.hephaistos.be/). 
-
-### Dependencies ###
-
-* Swissknife (available in this repository)
-* Commons-io (available in this repository)
