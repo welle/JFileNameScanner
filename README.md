@@ -1,4 +1,4 @@
-# JFileNameScanner [![Build Status](https://travis-ci.org/welle/JFileNameScanner.svg?branch=master)](https://travis-ci.org/welle/JFileNameScanner) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=aka.jfilenamescanner:JFileNameScanner)](https://sonarcloud.io/dashboard/index/aka.jfilenamescanner:JFileNameScanner) #
+# JFileNameScanner [![Build Status](https://travis-ci.org/welle/JFileNameScanner.svg?branch=master)](https://travis-ci.org/welle/JFileNameScanner) [![![quality gate](https://sonarcloud.io/api/project_badges/measure?project=aka.jfilenamescanner%3AJFileNameScanner&metric=alert_status)](https://sonarcloud.io/dashboard?id=aka.jfilenamescanner%3AJFileNameScanner) #
 
 ## Quick summary ##
 
