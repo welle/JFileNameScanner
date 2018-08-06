@@ -87,7 +87,7 @@ public final class SeasonXEpisode {
     @Override
     public boolean equals(final Object obj) {
         if (obj instanceof SeasonXEpisode) {
-            final SeasonXEpisode sxe = (SeasonXEpisode) obj;
+            final var sxe = (SeasonXEpisode) obj;
             return sxe.getEpisode() == this.episode && sxe.getSeason() == this.season;
         }
         return false;
@@ -95,7 +95,7 @@ public final class SeasonXEpisode {
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        var hash = 5;
         hash = 29 * hash + this.season;
         hash = 29 * hash + this.episode;
         return hash;

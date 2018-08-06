@@ -1,11 +1,9 @@
 package aka.media.jfilenamescanner.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNull;
@@ -42,13 +40,12 @@ public abstract class UsualWords {
                     }
                 }
             } else {
-                final List<@NonNull String> allMatch = names.stream().map(n -> n.getMatch()).collect(Collectors.toList());
-                assert allMatch != null;
-                List<@NonNull String> movieNames = getUsualWords(allMatch);
+                final var allMatch = names.stream().map(n -> n.getMatch()).collect(Collectors.toList());
+                var movieNames = getUsualWords(allMatch);
                 if (movieNames == null || movieNames.isEmpty()) {
                     result = getSmallString(allMatch);
                 } else {
-                    List<@NonNull String> tmp = getUsualWords(movieNames);
+                    var tmp = getUsualWords(movieNames);
                     while (tmp != null) {
                         tmp = getUsualWords(tmp);
                         if (tmp != null) {
@@ -72,16 +69,12 @@ public abstract class UsualWords {
      */
     @Nullable
     public final static List<@NonNull String> getUsualWords(@NonNull final List<@NonNull String> names) {
-        List<@NonNull String> common = new ArrayList<>();
+        var common = new ArrayList<@NonNull String>();
         for (int i = 0; i < names.size(); i++) {
             for (int j = 0; j < names.size(); j++) {
                 if (i != j) {
-                    final List<String> list1 = Arrays.asList(names.get(i).toLowerCase().split(StringConstants.SPACE.getString()));
-                    assert list1 != null; // as def of list
-                    final List<String> list2 = Arrays.asList(names.get(i).toLowerCase().split(StringConstants.SPACE.getString()));
-                    assert list2 != null; // as def of list
-                    Arrays.asList(names.get(i).toLowerCase().split(StringConstants.SPACE.getString()));
-                    assert list2 != null; // a
+                    final var list1 = List.of(names.get(i).toLowerCase().split(StringConstants.SPACE.getString()));
+                    final var list2 = List.of(names.get(i).toLowerCase().split(StringConstants.SPACE.getString()));
                     final String res = getCommonList(list1, list2);
                     if (res.length() > 0) {
                         common.add(standardize(res));
@@ -94,7 +87,7 @@ public abstract class UsualWords {
             common.add(standardize(names.get(0)));
         }
 
-        final Set<@NonNull String> set = new HashSet<>(common);
+        final var set = new HashSet<>(common);
         common = new ArrayList<>(set);
 
         Collections.sort(names);
@@ -116,7 +109,7 @@ public abstract class UsualWords {
      */
     @NonNull
     private static final String getCommonList(@NonNull final List<String> list1, @NonNull final List<String> list2) {
-        final StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
         for (final String str : list1) {
             if (list2.contains(str)) {
                 if (sb.length() != 0) {
@@ -126,8 +119,7 @@ public abstract class UsualWords {
             }
         }
 
-        final String result = sb.toString().trim();
-        assert result != null;
+        final var result = sb.toString().trim();
         return result;
     }
 
@@ -139,13 +131,12 @@ public abstract class UsualWords {
      */
     @NonNull
     public static final String standardize(@NonNull final String str) {
-        String normalize = str;
+        var normalize = str;
         normalize = normalize.replace(StringConstants.DOT.getString(), StringConstants.SPACE.getString()).replace(StringConstants.UNDERSCORE.getString(), StringConstants.SPACE.getString()).replace(StringConstants.DASH.getString(), StringConstants.SPACE.getString()).trim();
         normalize = normalize.replaceAll(Regex.PUNCTUATION.getExpression(), StringConstants.EMPTY.getString());
         normalize = normalize.replaceAll(Regex.PUNCTUATION2.getExpression(), StringConstants.EMPTY.getString()).replaceAll(Regex.PUNCTUATION3.getExpression(), StringConstants.EMPTY.getString());
         normalize = normalize.replaceAll(Regex.DUPLICATE_SPACE_CHARACTER.getExpression(), StringConstants.SPACE.getString());
-        final String result = normalize.trim();
-        assert result != null;
+        final var result = normalize.trim();
         return result;
     }
 
@@ -175,13 +166,12 @@ public abstract class UsualWords {
      */
     @NonNull
     public static final String getFilteredName(@NonNull final String mediaName, @NonNull final List<@NonNull String> replaceBy) {
-        String res = mediaName.replaceAll("\\.", StringConstants.SPACE.getString());
+        var res = mediaName.replaceAll("\\.", StringConstants.SPACE.getString());
         res = res.replaceAll(StringConstants.UNDERSCORE.getString(), StringConstants.SPACE.getString());
         for (final String regex : replaceBy) {
             res = res.replaceAll("(?i)" + regex, StringConstants.EMPTY.getString());
         }
 
-        assert res != null;
         return res;
     }
 }

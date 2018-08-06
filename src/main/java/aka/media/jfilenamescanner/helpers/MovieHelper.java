@@ -46,37 +46,27 @@ public final class MovieHelper {
      * @throws Exception if file name is null or empty
      */
     public MovieHelper(@NonNull final File mfile, @NonNull final List<@NonNull String> regexs) throws Exception {
-        final String name = mfile.getName();
-        assert name != null : "It should not be possible.";
-        this.filename = name;
-
-        final String temp = FilenameUtils.getBaseName(this.filename);
-        if (TextUtils.isEmpty(temp)) {
-            throw new Exception("File name is null or empty.");
-        }
-
-        assert temp != null;
-        this.nameWithoutSuffix = temp;
-        this.regexs = regexs;
-        parseName();
+        this(mfile.getName(), regexs);
     }
 
     /**
      * Constructor.
      *
-     * @param fileName movie name
+     * @param name movie name
      * @param regexs list of regular expressions to use
      * @throws Exception if file name is null or empty
      */
-    public MovieHelper(@NonNull final String fileName, @NonNull final List<@NonNull String> regexs) throws Exception {
-        this.filename = fileName;
+    public MovieHelper(@Nullable final String name, @NonNull final List<@NonNull String> regexs) throws Exception {
+        if (name == null || name.trim().isEmpty()) {
+            throw new Exception("File name is null or empty.");
+        }
+        this.filename = name;
 
         final String temp = FilenameUtils.getBaseName(this.filename);
-        if (TextUtils.isEmpty(temp)) {
+        if (temp == null || temp.trim().isEmpty()) {
             throw new Exception("File name is null or empty.");
         }
 
-        assert temp != null;
         this.nameWithoutSuffix = temp;
         this.regexs = regexs;
         parseName();
@@ -85,7 +75,7 @@ public final class MovieHelper {
     private void parseName() {
         String result;
         // Get all matcher values
-        final List<@NonNull NameMatcher> names = new ArrayList<>();
+        final var names = new ArrayList<@NonNull NameMatcher>();
         getMatcherRes(names, getMovieNameByYear(Regex.MOVIENAMEBYYEARW.getExpression()));
         getMatcherRes(names, getMovieNameByYear(Regex.MOVIENAMEBYYEAR.getExpression()));
         getMatcherRes(names, getMovieNameByUpperCase());
@@ -160,8 +150,7 @@ public final class MovieHelper {
             }
         }
 
-        if (!TextUtils.isEmpty(name)) {
-            assert name != null;
+        if (name != null) {
             name = UsualWords.standardize(name);
             name = UsualWords.getFilteredName(name, this.regexs);
             nameMatcher.setMatch(name);
@@ -181,12 +170,12 @@ public final class MovieHelper {
 
     @NonNull
     private NameMatcher getMovieNameByUpperCase() {
-        final NameMatcher movieMatcher = new NameMatcher("UpperCase Matcher", Priority.LOW);
-        String name = UsualWords.standardize(this.nameWithoutSuffix);
-        final String[] words = name.split(StringConstants.SPACE.getString());
+        final var movieMatcher = new NameMatcher("UpperCase Matcher", Priority.LOW);
+        var name = UsualWords.standardize(this.nameWithoutSuffix);
+        final var words = name.split(StringConstants.SPACE.getString());
         String end = null;
         for (final String word : words) {
-            final String mword = word.replace(":", StringConstants.EMPTY.getString());
+            final var mword = word.replace(":", StringConstants.EMPTY.getString());
             if (TextUtils.isUpperCase(mword) && !TextUtils.isDigit(mword) && mword.length() > 1) {
                 end = word;
                 break;
@@ -202,9 +191,8 @@ public final class MovieHelper {
 
     @NonNull
     private NameMatcher getMovieNameByRegex() {
-        final NameMatcher movieMatcher = new NameMatcher("Regex Matcher", Priority.MEDIUM);
-        @NonNull
-        final String name = UsualWords.getFilteredName(UsualWords.standardize(this.nameWithoutSuffix), this.regexs);
+        final var movieMatcher = new NameMatcher("Regex Matcher", Priority.MEDIUM);
+        final var name = UsualWords.getFilteredName(UsualWords.standardize(this.nameWithoutSuffix), this.regexs);
         movieMatcher.setMatch(name);
         return movieMatcher;
     }

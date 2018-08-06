@@ -15,11 +15,11 @@ public final class StringLengthComparator implements Comparator<String> {
 
     @Override
     public int compare(final String s1, final String s2) {
-        String string1 = s1;
+        var string1 = s1;
         if (s1 == null) {
             string1 = StringConstants.EMPTY.getString();
         }
-        String string2 = s2;
+        var string2 = s2;
         if (string2 == null) {
             string2 = StringConstants.EMPTY.getString();
         }

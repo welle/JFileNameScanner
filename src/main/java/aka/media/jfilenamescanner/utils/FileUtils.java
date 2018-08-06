@@ -22,9 +22,9 @@ public final class FileUtils {
      * @return <code>true</code> if path exist
      */
     public static boolean fileOrDirectoryExists(@NonNull final String path) {
-        boolean result = false;
+        var result = false;
 
-        final File file = new File(path);
+        final var file = new File(path);
         result = file.exists();
 
         return result;
@@ -41,7 +41,7 @@ public final class FileUtils {
             return false;
         }
 
-        final File[] roots = File.listRoots();
+        final var roots = File.listRoots();
         for (final File root : roots) {
             if (root.equals(dir)) {
                 return true;

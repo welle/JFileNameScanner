@@ -1,7 +1,6 @@
 package aka.media.jfilenamescanner;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
@@ -21,7 +20,7 @@ import aka.media.jfilenamescanner.helpers.TVShowNameHelper;
 public final class JFileNameScanner {
 
     @NonNull
-    private static final List<@NonNull String> NAME_FILTERS = Arrays.asList("notv", "readnfo", "repack", "proper$", "nfo$", "extended.cut", "limitededition", "limited", "k-sual", "extended", "uncut$", "n° [0-9][0-9][0-9]", "yestv", "stv", "remastered", "limited", "x264", "bluray", "bd5", "bd9", "hddvd", "hdz", "edition.exclusive", "unrated", "walt disney", "dvdrip", "cinefile", "hdmi", "dvd5", "ac3", "culthd", "dvd9", "remux", "edition.platinum", "frenchhqc", "frenchedit", "wawamania", "h264",
+    private static final List<@NonNull String> NAME_FILTERS = List.of("notv", "readnfo", "repack", "proper$", "nfo$", "extended.cut", "limitededition", "limited", "k-sual", "extended", "uncut$", "nï¿½ [0-9][0-9][0-9]", "yestv", "stv", "remastered", "limited", "x264", "bluray", "bd5", "bd9", "hddvd", "hdz", "edition.exclusive", "unrated", "walt disney", "dvdrip", "cinefile", "hdmi", "dvd5", "ac3", "culthd", "dvd9", "remux", "edition.platinum", "frenchhqc", "frenchedit", "wawamania", "h264",
             "bdrip", "brrip", "hdteam", "hddvdrip", "subhd", "xvid", "divx", "null$", "divx511", "vorbis", "=str=", "www", "ffm", "mp3", "divx5", "dvb", "mpa2", "blubyte", "brmp", "avs", "filmhd", "hd4u", "1080p", "1080i", "720p", "720i", "720", "truefrench", "dts", "french", "vostfr", "1cd", "2cd", "vff", " vo ", " vf ", "hdlight", "hd", " cam$ ", "telesync", " ts ", " tc ", "ntsc", " pal ", "dvd-r", "dvdscr", "scr$", "r1", "r2", "r3", "r4", "r5", "wp", "subforced", "dvd", "vcd", "avchd",
             " md", "redux", "trailer", "1080p", "720p", "MULTI", "x264", "x265", "bluray", "festival", "subfrench", "french", "truefrench", "dts", "ac3", "uncut", "theatrical cut", "unrated", "limited", "vostfr", "stv", "rip by", "\\s+rip\\s+", "\\s+by\\s+", "ripped by", "ripped", "version longue", "(version longue)");
 
@@ -36,7 +35,7 @@ public final class JFileNameScanner {
     public static String getMovieName(@NonNull final File file) throws Exception {
         String result = null;
         if (file.isFile()) {
-            final MovieHelper movieHelper = new MovieHelper(file, NAME_FILTERS);
+            final var movieHelper = new MovieHelper(file, NAME_FILTERS);
             result = movieHelper.getMovieName();
         } else {
             throw new Exception(file.getName() + " is not a file, maybe a directory ?");
@@ -54,7 +53,7 @@ public final class JFileNameScanner {
      */
     @Nullable
     public static String getMovieName(@NonNull final String name) throws Exception {
-        final MovieHelper movieHelper = new MovieHelper(name, NAME_FILTERS);
+        final var movieHelper = new MovieHelper(name, NAME_FILTERS);
 
         return movieHelper.getMovieName();
     }
@@ -70,7 +69,7 @@ public final class JFileNameScanner {
     public static String getMovieYear(@NonNull final File file) throws Exception {
         String result = null;
         if (file.isFile()) {
-            final MovieHelper movieHelper = new MovieHelper(file, NAME_FILTERS);
+            final var movieHelper = new MovieHelper(file, NAME_FILTERS);
             result = movieHelper.getYear();
         } else {
             throw new Exception(file.getName() + " is not a file, maybe a directory ?");
@@ -88,7 +87,7 @@ public final class JFileNameScanner {
      */
     @Nullable
     public static String getMovieYear(@NonNull final String name) throws Exception {
-        final MovieHelper movieHelper = new MovieHelper(name, NAME_FILTERS);
+        final var movieHelper = new MovieHelper(name, NAME_FILTERS);
 
         return movieHelper.getYear();
     }
@@ -101,7 +100,7 @@ public final class JFileNameScanner {
      */
     @Nullable
     public static String getTVShowName(@NonNull final String name) {
-        final TVShowNameHelper tvShowNameHelper = new TVShowNameHelper(name, NAME_FILTERS);
+        final var tvShowNameHelper = new TVShowNameHelper(name, NAME_FILTERS);
 
         return tvShowNameHelper.getTvShowName();
     }
@@ -115,7 +114,7 @@ public final class JFileNameScanner {
      */
     @Nullable
     public static String getTVShowYear(@NonNull final String name) throws Exception {
-        final MovieHelper movieHelper = new MovieHelper(name, NAME_FILTERS);
+        final var movieHelper = new MovieHelper(name, NAME_FILTERS);
 
         return movieHelper.getYear();
     }
@@ -125,9 +124,10 @@ public final class JFileNameScanner {
      *
      * @param name TV show file.
      * @return season of the TV show.
+     * @throws Exception if file name is null or empty
      */
-    public static int getSeasonOfTVShow(@NonNull final String name) {
-        final TVShowEpisodeHelper tvShowEpisodeHelper = new TVShowEpisodeHelper(name);
+    public static int getSeasonOfTVShow(@NonNull final String name) throws Exception {
+        final var tvShowEpisodeHelper = new TVShowEpisodeHelper(name);
 
         return tvShowEpisodeHelper.matchEpisode().getSeason();
     }
@@ -137,9 +137,10 @@ public final class JFileNameScanner {
      *
      * @param name TV show name.
      * @return episode of the TV show.
+     * @throws Exception if file name is null or empty
      */
-    public static int getEpisodeOfTVShow(@NonNull final String name) {
-        final TVShowEpisodeHelper tvShowEpisodeHelper = new TVShowEpisodeHelper(name);
+    public static int getEpisodeOfTVShow(@NonNull final String name) throws Exception {
+        final var tvShowEpisodeHelper = new TVShowEpisodeHelper(name);
 
         return tvShowEpisodeHelper.matchEpisode().getEpisode();
     }
@@ -149,10 +150,11 @@ public final class JFileNameScanner {
      *
      * @param file TV show file.
      * @return name of the TV show.
+     * @throws Exception if file name is null or empty
      */
     @Nullable
-    public static String getTVShowName(@NonNull final File file) {
-        final TVShowNameHelper tvShowNameHelper = new TVShowNameHelper(file, NAME_FILTERS);
+    public static String getTVShowName(@NonNull final File file) throws Exception {
+        final var tvShowNameHelper = new TVShowNameHelper(file, NAME_FILTERS);
 
         return tvShowNameHelper.getTvShowName();
     }
@@ -162,9 +164,10 @@ public final class JFileNameScanner {
      *
      * @param file TV show file.
      * @return season of the TV show.
+     * @throws Exception if file name is null or empty
      */
-    public static int getSeasonOfTVShow(@NonNull final File file) {
-        final TVShowEpisodeHelper tvShowEpisodeHelper = new TVShowEpisodeHelper(file);
+    public static int getSeasonOfTVShow(@NonNull final File file) throws Exception {
+        final var tvShowEpisodeHelper = new TVShowEpisodeHelper(file);
 
         return tvShowEpisodeHelper.matchEpisode().getSeason();
     }
@@ -174,9 +177,10 @@ public final class JFileNameScanner {
      *
      * @param file TV show file.
      * @return episode of the TV show.
+     * @throws Exception if file name is null or empty
      */
-    public static int getEpisodeOfTVShow(@NonNull final File file) {
-        final TVShowEpisodeHelper tvShowEpisodeHelper = new TVShowEpisodeHelper(file);
+    public static int getEpisodeOfTVShow(@NonNull final File file) throws Exception {
+        final var tvShowEpisodeHelper = new TVShowEpisodeHelper(file);
 
         return tvShowEpisodeHelper.matchEpisode().getEpisode();
     }
@@ -192,7 +196,7 @@ public final class JFileNameScanner {
     public static String getTVShowYear(@NonNull final File file) throws Exception {
         String result = null;
         if (file.isFile()) {
-            final MovieHelper movieHelper = new MovieHelper(file, NAME_FILTERS);
+            final var movieHelper = new MovieHelper(file, NAME_FILTERS);
             result = movieHelper.getYear();
         } else {
             throw new Exception(file.getName() + " is not a file, maybe a directory ?");

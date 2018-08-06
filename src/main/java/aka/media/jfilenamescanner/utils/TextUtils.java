@@ -16,7 +16,8 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 public final class TextUtils {
 
-    private static List<String> ISOLANGUAGE_STRING_LIST;
+    @NonNull
+    private static List<@NonNull String> ISOLANGUAGE_STRING_LIST;
 
     static {
         ISOLANGUAGE_STRING_LIST = new ArrayList<>();
@@ -55,16 +56,15 @@ public final class TextUtils {
         if (text == null) {
             return "";
         }
-        final int length = text.length();
-        final StringBuilder sb = new StringBuilder(text.length());
+        final var length = text.length();
+        final var sb = new StringBuilder(text.length());
         for (int i = 0; i < length; ++i) {
             final char chr = text.charAt(i);
             if (!Character.isWhitespace(chr)) {
                 sb.append(chr);
             }
         }
-        final String result = sb.toString();
-        assert result != null;
+        final var result = sb.toString();
         return result;
     }
 
@@ -72,6 +72,7 @@ public final class TextUtils {
      * @param text
      * @return String with all alphanum removed
      */
+    @Nullable
     public static String trimNonAlphaNum(final String text) {
         String result = null;
         if (text != null) {
@@ -85,11 +86,11 @@ public final class TextUtils {
      * @return true if CharSequence contains whitespace
      */
     public static boolean containsWhitespace(final CharSequence text) {
-        boolean result = false;
+        var result = false;
         if (text != null) {
-            final int length = text.length();
-            for (int i = 0; i < length; ++i) {
-                final char chr = text.charAt(i);
+            final var length = text.length();
+            for (var i = 0; i < length; ++i) {
+                final var chr = text.charAt(i);
                 if (Character.isWhitespace(chr)) {
                     result = true;
                     break;
@@ -105,12 +106,13 @@ public final class TextUtils {
      * @param word
      * @return the word capitalized if it is possible
      */
-    public static CharSequence capitalizeWord(final CharSequence word) {
+    @NonNull
+    public static CharSequence capitalizeWord(@NonNull final CharSequence word) {
         if (isEmpty(word)) {
             return word;
         }
-        final StringBuilder tmp = new StringBuilder(word);
-        final char firstChr = tmp.charAt(0);
+        final var tmp = new StringBuilder(word);
+        final var firstChr = tmp.charAt(0);
         tmp.setCharAt(0, Character.toUpperCase(firstChr));
         return tmp.subSequence(0, tmp.length());
     }
@@ -121,17 +123,16 @@ public final class TextUtils {
      */
     @NonNull
     public static String pack(final String @Nullable... strings) {
-        final StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
 
         if (strings != null && strings.length > 0) {
             for (int i = 0; i < strings.length; i++) {
-                final String temp = strings[i];
+                final var temp = strings[i];
                 sb.append(temp);
             }
         }
 
-        final String result = sb.toString();
-        assert result != null;
+        final var result = sb.toString();
         return result;
     }
 
@@ -141,15 +142,15 @@ public final class TextUtils {
      * @param str
      * @return True if all letter are uppercase except I,II,III,..., false otherwise
      */
-    public static boolean isUpperCase(final String str) {
-        final String[] romanNumber = new String[] { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X" };
+    public static boolean isUpperCase(final @NonNull String str) {
+        final var romanNumber = new String[] { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X" };
         for (final String number : romanNumber) {
             if (str.equals(number)) {
                 return false;
             }
         }
         for (int i = 0; i < str.length(); i++) {
-            final char ch = str.charAt(i);
+            final var ch = str.charAt(i);
             if (ch < 32 || ch > 96) {
                 return false;
             }
@@ -163,8 +164,8 @@ public final class TextUtils {
      * @param str String
      * @return True if str is a digit, false otherwise
      */
-    public static boolean isDigit(final String str) {
-        if (str == null || str.length() == 0) {
+    public static boolean isDigit(final @Nullable String str) {
+        if (str == null || str.trim().length() == 0) {
             return false;
         }
 
@@ -182,7 +183,7 @@ public final class TextUtils {
      * @param s
      * @return <code>true</code> if string can be stored in sql
      */
-    public static boolean isUTF8(final String s) {
+    public static boolean isUTF8(final @Nullable String s) {
         /**
          * <pre>
          * ^   # start of subject
@@ -205,7 +206,7 @@ public final class TextUtils {
          * $   # end of subject
          * </pre>
          */
-        final String pattern = "^(?:[\\p{L}\\p{Mn}\\p{Pd}\\']+\\s[\\p{L}\\p{Mn}\\p{Pd}\\']+\\s?)+$";
+        final var pattern = "^(?:[\\p{L}\\p{Mn}\\p{Pd}\\']+\\s[\\p{L}\\p{Mn}\\p{Pd}\\']+\\s?)+$";
         return Pattern.compile(pattern).matcher(s).matches();
     }
 
@@ -215,7 +216,8 @@ public final class TextUtils {
      * @param num the UTF-16 string to decode
      * @return the resulting string
      */
-    public final static String encode_utf16F4(final String num) {
+    @Nullable
+    public final static String encode_utf16F4(final @NonNull String num) {
         String stringISO = null;
         try {
             stringISO = new String(num.getBytes(), "ISO-8859-1");
@@ -232,7 +234,8 @@ public final class TextUtils {
      * @param num the UTF-16 string to decode
      * @return the resulting string
      */
-    public final static String decode_utf16F4(final String num) {
+    @Nullable
+    public final static String decode_utf16F4(final @NonNull String num) {
         String stringISO = null;
         try {
             stringISO = new String(num.getBytes(), "UTF-8");

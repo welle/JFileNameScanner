@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.jdt.annotation.NonNull;
@@ -40,11 +39,14 @@ public class TVShowNameHelper {
      *
      * @param mfile TV show file
      * @param regexs list of regular expression
+     * @throws Exception
      */
-    public TVShowNameHelper(@NonNull final File mfile, @NonNull final List<@NonNull String> regexs) {
+    public TVShowNameHelper(@NonNull final File mfile, @NonNull final List<@NonNull String> regexs) throws Exception {
         this.mfile = mfile;
-        final String name = mfile.getName();
-        assert name != null : "It should not be possible.";
+        final var name = mfile.getName();
+        if (name == null || name.trim().isEmpty()) {
+            throw new Exception("File name is null or empty.");
+        }
         init(name, regexs);
     }
 
@@ -72,14 +74,13 @@ public class TVShowNameHelper {
     public final String getTvShowName() {
         String toReturn = null;
         // Get all matcher values
-        final List<@NonNull NameMatcher> names = new ArrayList<>();
+        final var names = new ArrayList<@NonNull NameMatcher>();
         getMatcherRes(names, matchByFolderName());
         getMatcherRes(names, matchByEpisode());
         getMatcherRes(names, matchByCommonSeqFileName());
         getMatcherRes(names, matchByRegEx());
         if (names.isEmpty()) {
             final String result = this.filename.substring(0, this.filename.lastIndexOf(StringConstants.DOT.getString()));
-            assert result != null;
             toReturn = UsualWords.standardize(result);
         } else {
             toReturn = UsualWords.matchAllNames(names, true);
@@ -95,17 +96,17 @@ public class TVShowNameHelper {
 
     @NonNull
     private final NameMatcher matchByFolderName() {
-        final NameMatcher folderNameMatcher = new NameMatcher("Folder Name Matcher", Priority.HIGH);
-        String res = StringConstants.EMPTY.getString();
-        final File currentFile = this.mfile;
+        final var folderNameMatcher = new NameMatcher("Folder Name Matcher", Priority.HIGH);
+        var res = StringConstants.EMPTY.getString();
+        final var currentFile = this.mfile;
         if (currentFile != null) {
-            final String parentFile = currentFile.getParent();
+            final var parentFile = currentFile.getParent();
             if (parentFile != null) {
-                final Pattern pattern = Pattern.compile(Regex.SEASONFOLDERPATTERN.getExpression());
-                final Matcher matcher = pattern.matcher(parentFile.substring(parentFile.lastIndexOf(File.separator) + 1));
+                final var pattern = Pattern.compile(Regex.SEASONFOLDERPATTERN.getExpression());
+                final var matcher = pattern.matcher(parentFile.substring(parentFile.lastIndexOf(File.separator) + 1));
                 if (matcher.find()) {// Parent folder looks like : Season 5,s3,saison 12,...
                     if (currentFile.getParentFile().getParent() != null) {// If parent folder looks like a season folder, parent folder of season folder is probably the TV show name
-                        final File current = currentFile.getParentFile().getParentFile();
+                        final var current = currentFile.getParentFile().getParentFile();
                         if (current != null) {
                             res = getTvShowFolderName(current);
                         }
@@ -121,10 +122,10 @@ public class TVShowNameHelper {
 
     @NonNull
     private final NameMatcher matchByEpisode() {
-        final NameMatcher episodeMatcher = new NameMatcher("Episode Matcher", Priority.MEDIUM);
-        String name = this.filename;
-        final Pattern pattern = Pattern.compile(Regex.TVSHOWNAMEBYEPISODE.getExpression());
-        final Matcher matcher = pattern.matcher(name);
+        final var episodeMatcher = new NameMatcher("Episode Matcher", Priority.MEDIUM);
+        var name = this.filename;
+        final var pattern = Pattern.compile(Regex.TVSHOWNAMEBYEPISODE.getExpression());
+        final var matcher = pattern.matcher(name);
 
         if (matcher.find()) {// Match episode in fileName
             name = name.substring(0, name.indexOf(matcher.group(0)));
@@ -133,7 +134,6 @@ public class TVShowNameHelper {
         }
 
         if (!TextUtils.isEmpty(name)) {
-            assert name != null;
             name = UsualWords.getFilteredName(name, this.regexs);
             episodeMatcher.setMatch(UsualWords.standardize(name));
         }
@@ -143,17 +143,17 @@ public class TVShowNameHelper {
 
     @NonNull
     private final NameMatcher matchByCommonSeqFileName() {
-        final NameMatcher commonMatcher = new NameMatcher("Common sequence in files matcher", Priority.LOW);
-        final File currentFile = this.mfile;
+        final var commonMatcher = new NameMatcher("Common sequence in files matcher", Priority.LOW);
+        final var currentFile = this.mfile;
         if (currentFile != null) {
-            final File parentFile = currentFile.getParentFile();
-            final File[] files = parentFile.listFiles((FileFilter) file -> {
-                boolean result = false;
+            final var parentFile = currentFile.getParentFile();
+            final var files = parentFile.listFiles((FileFilter) file -> {
+                var result = false;
                 if (file.getName().contains(StringConstants.DOT.getString())) {
                     if (!currentFile.equals(file)) {
-                        final String name = file.getName();
-                        final Pattern pattern = Pattern.compile(Regex.TVSHOWNAMEBYEPISODE.getExpression());
-                        final Matcher matcher = pattern.matcher(name);
+                        final var name = file.getName();
+                        final var pattern = Pattern.compile(Regex.TVSHOWNAMEBYEPISODE.getExpression());
+                        final var matcher = pattern.matcher(name);
                         if (matcher.find()) {
                             result = true;
                         }
@@ -164,17 +164,17 @@ public class TVShowNameHelper {
 
             if (files != null && files.length > 1) {
                 // Add all words from fileName in list
-                final List<@NonNull String> names = new ArrayList<>();
+                final var names = new ArrayList<@NonNull String>();
                 for (final File f : files) {
-                    final String name = f.getName().substring(0, f.getName().lastIndexOf(StringConstants.DOT.getString()) + 1);
+                    final var name = f.getName().substring(0, f.getName().lastIndexOf(StringConstants.DOT.getString()) + 1);
                     names.add(UsualWords.standardize(name));
                 }
 
                 // Check if list is as small as possible
-                List<@NonNull String> tvShowNames = UsualWords.getUsualWords(names);
+                var tvShowNames = UsualWords.getUsualWords(names);
                 if (tvShowNames != null) {
                     // Get list as small as possible
-                    List<@NonNull String> tmp = UsualWords.getUsualWords(tvShowNames);
+                    var tmp = UsualWords.getUsualWords(tvShowNames);
                     while (tmp != null) {
                         tmp = UsualWords.getUsualWords(tmp);
                         if (tmp != null) {
@@ -182,7 +182,7 @@ public class TVShowNameHelper {
                         }
                     }
 
-                    String res = UsualWords.getSmallString(tvShowNames);
+                    var res = UsualWords.getSmallString(tvShowNames);
                     if (res != null) {
                         res = UsualWords.getFilteredName(res, this.regexs);
                         commonMatcher.setMatch(UsualWords.standardize(res));
@@ -196,8 +196,8 @@ public class TVShowNameHelper {
 
     @NonNull
     private final NameMatcher matchByRegEx() {
-        final NameMatcher tvshowMatcher = new NameMatcher("Regex Matcher", Priority.MEDIUM);
-        String name = this.filename.substring(0, this.filename.lastIndexOf(StringConstants.DOT.getString()));
+        final var tvshowMatcher = new NameMatcher("Regex Matcher", Priority.MEDIUM);
+        var name = this.filename.substring(0, this.filename.lastIndexOf(StringConstants.DOT.getString()));
         name = UsualWords.getFilteredName(name, this.regexs);
         tvshowMatcher.setMatch(UsualWords.standardize(name));
         return tvshowMatcher;
@@ -205,18 +205,17 @@ public class TVShowNameHelper {
 
     @NonNull
     private final String getTvShowFolderName(@NonNull final File parentFile) {
-        String res = StringConstants.EMPTY.getString();
+        var res = StringConstants.EMPTY.getString();
         if (!FileUtils.isRootDir(parentFile)) {
-            final String parent = parentFile.getName().substring(parentFile.getName().lastIndexOf(File.separator) + 1);
-            final Pattern pattern = Pattern.compile(Regex.SEASONFOLDERPATTERN.getExpression());
-            final Matcher matcher = pattern.matcher(parent);
+            final var parent = parentFile.getName().substring(parentFile.getName().lastIndexOf(File.separator) + 1);
+            final var pattern = Pattern.compile(Regex.SEASONFOLDERPATTERN.getExpression());
+            final var matcher = pattern.matcher(parent);
             if (!matcher.find()) {// Check if folderName is not a tvshowName
                 res = parent;
             }
         }
 
-        final String result = res.toLowerCase();
-        assert result != null;
+        final var result = res.toLowerCase();
         return result;
     }
 }

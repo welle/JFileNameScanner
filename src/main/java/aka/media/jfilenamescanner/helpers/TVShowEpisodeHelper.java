@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.jdt.annotation.NonNull;
@@ -41,26 +40,29 @@ public final class TVShowEpisodeHelper {
      * Constructor.
      *
      * @param mfile TV show file
+     * @throws Exception
      */
-    public TVShowEpisodeHelper(@NonNull final File mfile) {
-        final String name = mfile.getName();
-        assert name != null : "It should not be possible.";
-        init(name);
+    public TVShowEpisodeHelper(@NonNull final File mfile) throws Exception {
+        this(mfile.getName());
     }
 
     /**
      * Constructor.
      *
      * @param episodeName TV show name.
+     * @throws Exception
      */
-    public TVShowEpisodeHelper(@NonNull final String episodeName) {
+    public TVShowEpisodeHelper(@Nullable final String episodeName) throws Exception {
+        if (episodeName == null || episodeName.trim().isEmpty()) {
+            throw new Exception("File name is null or empty.");
+        }
         init(episodeName);
     }
 
     private void init(@NonNull final String epName) {
         if (epName.contains(File.separator)) {
             this.parentFolder = epName.substring(0, epName.lastIndexOf(File.separator)).toLowerCase();
-            final String name = epName.substring(epName.lastIndexOf(File.separator) + 1);
+            final var name = epName.substring(epName.lastIndexOf(File.separator) + 1);
             assert name != null;
             this.episodeName = standardize(name);
         } else {
@@ -76,10 +78,9 @@ public final class TVShowEpisodeHelper {
     @NonNull
     public final SeasonXEpisode matchEpisode() {
         SeasonXEpisode result;
-        final List<@NonNull SeasonXEpisode> SxEs = new ArrayList<>();
+        final var SxEs = new ArrayList<@NonNull SeasonXEpisode>();
         SeasonXEpisode sxe;
         for (final TvShowPattern patternToTest : TvShowPattern.values()) {
-            assert patternToTest != null;
             if ((sxe = match(patternToTest)) != null) {
                 SxEs.add(sxe);
             }
@@ -87,15 +88,15 @@ public final class TVShowEpisodeHelper {
 
         if (SxEs.isEmpty()) {
             sxe = new SeasonXEpisode();
-            Matcher matcher = SEASON_PATTERN.matcher(this.parentFolder == null ? this.episodeName : this.parentFolder);
+            var matcher = SEASON_PATTERN.matcher(this.parentFolder == null ? this.episodeName : this.parentFolder);
             if (matcher.find()) {
-                final String season = matcher.group(1);
+                final var season = matcher.group(1);
                 sxe.setSeason(TextUtils.isDigit(season) ? Integer.parseInt(season) : 1);
             }
 
             matcher = EPISODE_PATTERN.matcher(this.episodeName);
             if (matcher.find()) {
-                final String episode = matcher.group(1) == null ? matcher.group(2) : matcher.group(1);
+                final var episode = matcher.group(1) == null ? matcher.group(2) : matcher.group(1);
                 sxe.setEpisode(TextUtils.isDigit(episode) ? Integer.parseInt(episode) : 1);
             }
 
@@ -113,8 +114,8 @@ public final class TVShowEpisodeHelper {
                 result = new SeasonXEpisode(1, 1);
             }
         } else {
-            final List<@NonNull SeasonXEpisode> completeMatch = new ArrayList<>();
-            final List<@NonNull SeasonXEpisode> partialMatch = new ArrayList<>();
+            final var completeMatch = new ArrayList<@NonNull SeasonXEpisode>();
+            final var partialMatch = new ArrayList<@NonNull SeasonXEpisode>();
 
             // Split complete match and partial match (partial match will be empty in almost all cases)
             for (final SeasonXEpisode match : SxEs) {
@@ -127,7 +128,7 @@ public final class TVShowEpisodeHelper {
 
             // If no complete match, try to make a complete match with partial match
             if (completeMatch.isEmpty() && partialMatch.size() > 1) {
-                final SeasonXEpisode match = new SeasonXEpisode();
+                final var match = new SeasonXEpisode();
                 for (final SeasonXEpisode mSxE : partialMatch) {
                     if (match.getEpisode() == -1 && mSxE.getEpisode() != -1) {
                         match.setEpisode(mSxE.getEpisode());
@@ -146,8 +147,8 @@ public final class TVShowEpisodeHelper {
                 } else {
                     // Try to get the most probable match
                     if (completeMatch.size() > 1) {
-                        final SeasonXEpisode fMatch = completeMatch.get(0);
-                        boolean different = false;
+                        final var fMatch = completeMatch.get(0);
+                        var different = false;
                         for (final SeasonXEpisode match : completeMatch) {
                             if (!fMatch.equals(match)) {
                                 different = true;
@@ -176,10 +177,10 @@ public final class TVShowEpisodeHelper {
     @Nullable
     private final SeasonXEpisode match(@NonNull final TvShowPattern EPpattern) {
         SeasonXEpisode result = null;
-        final Matcher matcher = EPpattern.getPattern().matcher(this.episodeName);
+        final var matcher = EPpattern.getPattern().matcher(this.episodeName);
         if (matcher.find()) {
-            final String season = matcher.group(1);
-            final String episode = matcher.group(2);
+            final var season = matcher.group(1);
+            final var episode = matcher.group(2);
 
             int S, E;
             S = TextUtils.isDigit(season) ? Integer.parseInt(season) : -1;
@@ -199,36 +200,32 @@ public final class TVShowEpisodeHelper {
 
     @NonNull
     private final SeasonXEpisode getSxE(@NonNull final List<@NonNull SeasonXEpisode> SxEs) {
-        final SeasonXEpisode sxe = new SeasonXEpisode();
-        final Map<@NonNull Integer, @NonNull Integer> seasonMatch = new LinkedHashMap<>();
-        final Map<@NonNull Integer, @NonNull Integer> episodeMatch = new LinkedHashMap<>();
+        final var sxe = new SeasonXEpisode();
+        final var seasonMatch = new LinkedHashMap<@NonNull Integer, Integer>();
+        final var episodeMatch = new LinkedHashMap<@NonNull Integer, Integer>();
         for (final SeasonXEpisode tmp : SxEs) {
-            final Integer season = Integer.valueOf(tmp.getSeason());
+            final var season = Integer.valueOf(tmp.getSeason());
             if (season.intValue() != -1) {
                 if (seasonMatch.containsKey(season)) {
-                    int count = seasonMatch.get(season).intValue();
+                    var count = seasonMatch.get(season).intValue();
                     seasonMatch.remove(season);
-                    final Integer value = Integer.valueOf(count++);
-                    assert value != null;
+                    final var value = Integer.valueOf(count++);
                     seasonMatch.put(season, value);
                 } else {
-                    final Integer value = Integer.valueOf(1);
-                    assert value != null;
+                    final var value = Integer.valueOf(1);
                     seasonMatch.put(season, value);
                 }
             }
 
-            final Integer episode = Integer.valueOf(tmp.getEpisode());
+            final var episode = Integer.valueOf(tmp.getEpisode());
             if (episode.intValue() != -1) {
                 if (episodeMatch.containsKey(episode)) {
                     int count = episodeMatch.get(episode).intValue();
                     episodeMatch.remove(episode);
-                    final Integer value = Integer.valueOf(count++);
-                    assert value != null;
+                    final var value = Integer.valueOf(count++);
                     episodeMatch.put(season, value);
                 } else {
-                    final Integer value = Integer.valueOf(1);
-                    assert value != null;
+                    final var value = Integer.valueOf(1);
                     episodeMatch.put(season, value);
                 }
             }
@@ -240,9 +237,9 @@ public final class TVShowEpisodeHelper {
     }
 
     private final int getMostProbableNumber(@NonNull final Map<@NonNull Integer, @NonNull Integer> map) {
-        int result = -1;
+        var result = -1;
         if (!map.isEmpty()) {
-            final Integer key = getKeyByValue(map, Collections.max(map.values()));
+            final var key = getKeyByValue(map, Collections.max(map.values()));
             if (key != null) {
                 result = key.intValue();
             }
@@ -278,8 +275,7 @@ public final class TVShowEpisodeHelper {
         normalize = normalize.replaceAll(Regex.PUNCTUATION.getExpression(), StringConstants.EMPTY.getString());// Remove punctuation
         normalize = normalize.replaceAll(Regex.DUPLICATE_SPACE_CHARACTER.getExpression(), StringConstants.SPACE.getString());// Remove duplicate space character
 
-        final String result = str.toLowerCase();
-        assert result != null;
+        final var result = str.toLowerCase();
         return result;
     }
 }

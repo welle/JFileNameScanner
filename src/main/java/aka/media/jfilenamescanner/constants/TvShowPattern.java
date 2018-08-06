@@ -10,6 +10,7 @@ import org.eclipse.jdt.annotation.NonNull;
  * @author Cha
  */
 public enum TvShowPattern {
+
     /**
      * <ul>
      * <li>1st Capturing group ([0-9]{1,2})
@@ -57,9 +58,9 @@ public enum TvShowPattern {
      * <li>Quantifier: ? Between zero and one time, as many times as possible, giving back as needed</li>
      * </ul>
      * </li>
-     * <li>[eé] match a single character present in the list below
+     * <li>[eï¿½] match a single character present in the list below
      * <ul>
-     * <li>eé a single character in the list eé literally (case sensitive)</li>
+     * <li>eï¿½ a single character in the list eï¿½ literally (case sensitive)</li>
      * </ul>
      * </li>
      * <li>2nd Capturing group ([0-9]{1,3})
@@ -74,7 +75,7 @@ public enum TvShowPattern {
      * </li>
      * </ul>
      */
-    SxEPattern2("s([0-9]{1,2}).?[eé]([0-9]{1,3})"),
+    SxEPattern2("s([0-9]{1,2}).?[eï¿½]([0-9]{1,3})"),
 
     /**
      * <ul>
@@ -177,9 +178,9 @@ public enum TvShowPattern {
      * <li>Quantifier: * Between zero and unlimited times, as many times as possible, giving back as needed</li>
      * </ul>
      * </li>
-     * <li>[eé] match a single character present in the list below
+     * <li>[eï¿½] match a single character present in the list below
      * <ul>
-     * <li>eé a single character in the list eé literally (case sensitive)</li>
+     * <li>eï¿½ a single character in the list eï¿½ literally (case sensitive)</li>
      * </ul>
      * </li>
      * <li>p matches the character p literally (case sensitive)</li>
@@ -200,7 +201,7 @@ public enum TvShowPattern {
      * </li>
      * </ul>
      */
-    SxEPattern4("(?:(?:season)|(?:saison)).?([0-9]{1,2}).*[eé]p.?([0-9]{1,3})"),
+    SxEPattern4("(?:(?:season)|(?:saison)).?([0-9]{1,2}).*[eï¿½]p.?([0-9]{1,3})"),
 
     /**
      * <ul>
@@ -246,11 +247,11 @@ public enum TvShowPattern {
      * <li>Quantifier: * Between zero and unlimited times, as many times as possible, giving back as needed</li>
      * </ul>
      * </li>
-     * <li>(?:[eé]pisode) Non-capturing group
+     * <li>(?:[eï¿½]pisode) Non-capturing group
      * <ul>
-     * <li>[eé] match a single character present in the list below
+     * <li>[eï¿½] match a single character present in the list below
      * <ul>
-     * <li>eé a single character in the list eé literally (case sensitive)</li>
+     * <li>eï¿½ a single character in the list eï¿½ literally (case sensitive)</li>
      * </ul>
      * </li>
      * <li>pisode matches the characters pisode literally (case sensitive)</li>
@@ -273,7 +274,7 @@ public enum TvShowPattern {
      * </li>
      * </ul>
      */
-    SxEPattern5("(?:(?:season)|(?:saison)).?([0-9]{1,2}).*(?:[eé]pisode).?([0-9]{1,3})"),
+    SxEPattern5("(?:(?:season)|(?:saison)).?([0-9]{1,2}).*(?:[eï¿½]pisode).?([0-9]{1,3})"),
 
     /**
      * <ul>
@@ -293,9 +294,9 @@ public enum TvShowPattern {
      * <li>Quantifier: * Between zero and unlimited times, as many times as possible, giving back as needed</li>
      * </ul>
      * </li>
-     * <li>[ée] match a single character present in the list below
+     * <li>[ï¿½e] match a single character present in the list below
      * <ul>
-     * <li>ée a single character in the list ée literally (case sensitive)</li>
+     * <li>ï¿½e a single character in the list ï¿½e literally (case sensitive)</li>
      * </ul>
      * </li>
      * <li>pisode matches the characters pisode literally (case sensitive)</li>
@@ -322,7 +323,7 @@ public enum TvShowPattern {
      * </li>
      * </ul>
      */
-    SxEPattern6("s([0-9]{1,2}).*[ée]pisode.?\\D?([0-9]{1,3})"),
+    SxEPattern6("s([0-9]{1,2}).*[ï¿½e]pisode.?\\D?([0-9]{1,3})"),
 
     /**
      * <ul>
@@ -375,6 +376,8 @@ public enum TvShowPattern {
     }
 
     /**
+     * Return the current pattern.
+     *
      * @return pattern
      */
     @NonNull

@@ -8,6 +8,7 @@ import com.opencsv.bean.CsvBindByPosition;
  * @author charlottew
  */
 public class CSVMovies {
+
     @CsvBindByPosition(position = 0)
     private String originalFileName;
 
